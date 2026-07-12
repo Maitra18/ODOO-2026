@@ -1,46 +1,111 @@
-# AssetFlow Frontend
+#AssetFlow – Enterprise Asset & Resource Management
 
-A React + Vite website that connects to your AssetFlow Spring Boot backend.
+#Overview
 
-## What's included right now
-- Login page → calls `POST /auth/login`
-- Signup page → calls `POST /auth/signup`
-- Forgot password page → calls `POST /auth/forgot-password`
-- Dashboard (protected) → calls `GET /notifications/unread-count` to prove the connection
-- Notifications page (protected) → calls `GET /notifications`, `PATCH /notifications/read-all`
-- Auto token refresh: if your access token expires, it silently calls `POST /auth/refresh-token` and retries
+AssetFlow is a modern web-based Enterprise Asset & Resource Management System designed to help organizations efficiently manage assets, resource allocation, maintenance, bookings, audits, and reports through a clean and responsive interface.
 
-## How to run it
+Features
 
-1. Make sure the backend is already running on `http://localhost:8080` (see assetflow-backend README).
+- 📊 Interactive Dashboard
+- 🏢 Organization Setup
+- 📦 Asset Management
+- 👥 Asset Allocation
+- 📅 Resource Booking
+- 🔧 Maintenance Tracking
+- ✅ Asset Audit
+- 📈 Reports & Analytics (Chart.js)
+- 📝 Activity Logs
+- 🔐 Authentication & Role-Based Access
+- 📱 Responsive User Interface
 
-2. Install dependencies:
-   ```
-   npm install
-   ```
+Technology Stack
 
-3. Start the dev server:
-   ```
-   npm run dev
-   ```
+- HTML5
+- CSS3
+- JavaScript (ES6 Modules)
+- Chart.js
+- Local Browser Storage / JavaScript Database
 
-4. Open the URL it prints (usually `http://localhost:5173`).
+Project Structure
 
-5. Click "Create one" to sign up, or log in if you already made a user via curl/Postman earlier.
+assetflow/
+│
+├── index.html
+├── css/
+│   ├── styles.css
+│   └── components.css
+│
+└── js/
+    ├── app.js
+    ├── auth.js
+    ├── db.js
+    └── screens/
+        ├── dashboard.js
+        ├── orgSetup.js
+        ├── assets.js
+        ├── allocation.js
+        ├── booking.js
+        ├── maintenance.js
+        ├── audit.js
+        ├── reports.js
+        └── logs.js
 
-## Where the "connection" actually happens
+Modules
 
-- `src/api/client.js` — the Axios instance. This is the single file that knows the backend's address (`VITE_API_BASE_URL` in `.env`) and attaches your JWT to every request.
-- `src/api/auth.js` — the specific auth calls (login/signup/etc.)
-- `src/context/AuthContext.jsx` — keeps the logged-in user in memory + localStorage, exposes `login()`, `signup()`, `logout()` to any page.
-- `src/components/ProtectedRoute.jsx` — bounces you to `/login` if you're not authenticated.
+Dashboard
 
-## Changing the backend address
+Displays key business metrics, asset statistics, and system overview.
 
-If your backend runs somewhere other than `localhost:8080`, edit `.env`:
-```
-VITE_API_BASE_URL=http://your-backend-host:8080/api
-```
+Organization Setup
 
-## Next modules to add here
-Departments, Employee Directory, Asset Categories, Asset Registration, Allocations, Transfers, Bookings, Maintenance, Audits, Reports, Activity Logs — each will follow the same pattern: a file in `src/api/`, a page in `src/pages/`, a route in `App.jsx`.
+Manage departments, users, and organizational configuration.
+
+Asset Management
+
+Create, update, search, and manage enterprise assets.
+
+Asset Allocation
+
+Assign and track assets allocated to employees or departments.
+
+Resource Booking
+
+Book shared assets and manage scheduling.
+
+Maintenance
+
+Track maintenance requests, service history, and asset condition.
+
+Audit
+
+Perform asset verification and maintain audit records.
+
+Reports
+
+Generate visual reports and analytics using Chart.js.
+
+Activity Logs
+
+Monitor important system events and user activities.
+
+Installation
+
+1. Download or clone the project.
+2. Open the project folder.
+3. Run a local web server (recommended).
+4. Open "index.html" in your browser.
+
+Future Enhancements
+
+- Backend API integration
+- Cloud database support
+- QR/Barcode asset tracking
+- Email notifications
+- File attachments
+- Export reports to PDF and Excel
+- Multi-organization support
+- Dark mode
+
+License
+
+This project is intended for educational and demonstration purposes. Modify and extend it according to your organization's requirements.
