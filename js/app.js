@@ -1,6 +1,7 @@
 import { db } from './db.js';
 import { auth } from './auth.js';
 
+// Screens - Static Imports
 import { renderDashboard } from './screens/dashboard.js';
 import { renderOrgSetup } from './screens/orgSetup.js';
 import { renderAssets } from './screens/assets.js';
@@ -11,6 +12,7 @@ import { renderAudit } from './screens/audit.js';
 import { renderReports } from './screens/reports.js';
 import { renderLogs } from './screens/logs.js';
 
+// Global Modal Helpers
 export function openModal(title, bodyHTML, footerButtons = []) {
   const modal = document.getElementById('global-modal');
   document.getElementById('modal-title').textContent = title;
@@ -54,16 +56,21 @@ class AppRouter {
   }
 
   init() {
+    // Listen for routes
     window.addEventListener('hashchange', () => this.handleRouting());
     
+    // Close modal listener
     document.getElementById('modal-close').addEventListener('click', closeModal);
     
+    // Setup login/logout forms
     document.getElementById('auth-form').addEventListener('submit', (e) => this.handleLogin(e));
     document.getElementById('auth-switch-link').addEventListener('click', () => this.toggleAuthMode());
     document.getElementById('shell-logout-btn').addEventListener('click', () => this.handleLogout());
     
+    // Quick role switcher
     document.getElementById('role-quick-switcher').addEventListener('change', (e) => this.handleQuickSwitch(e));
     
+    // Notification dropdown toggle
     const bell = document.getElementById('notif-bell');
     const dropdown = document.getElementById('notif-dropdown');
     bell.addEventListener('click', (e) => {
@@ -82,8 +89,10 @@ class AppRouter {
       }
     });
     
+    // Check initial state
     this.refreshShellState();
     
+    // Run notification overdue scanning check simulation
     setInterval(() => this.backgroundScan(), 8000);
   }
 
@@ -94,11 +103,13 @@ class AppRouter {
     const nameGroup = document.getElementById('signup-name-group');
     
     if (nameGroup.classList.contains('hidden')) {
+      // Switch to Signup
       title.textContent = 'Create an Account';
       submitBtn.textContent = 'Sign Up';
       link.textContent = 'Already have an account? Log in';
       nameGroup.classList.remove('hidden');
     } else {
+      // Switch to Login
       title.textContent = 'Log In to Your Account';
       submitBtn.textContent = 'Log In';
       link.textContent = "Don't have an account? Sign up";
@@ -115,16 +126,16 @@ class AppRouter {
     
     try {
       if (nameGroup.classList.contains('hidden')) {
-        
+        // Log in
         auth.login(emailInput.value, passwordInput.value);
       } else {
-        
+        // Sign up
         auth.signup(nameInput.value, emailInput.value, passwordInput.value);
       }
       
       this.refreshShellState();
       
-      
+      // Clear inputs
       nameInput.value = '';
       emailInput.value = '';
       passwordInput.value = '';
@@ -154,38 +165,39 @@ class AppRouter {
     const switcher = document.getElementById('role-quick-switcher');
     
     if (user) {
-      
+      // Logged in
       authContainer.classList.add('hidden');
       appShell.classList.remove('hidden');
       
-      
+      // Update quick switcher selection
       switcher.value = user.id;
       
+      // Update sidebar footer
       document.getElementById('shell-user-name').textContent = user.name;
       document.getElementById('shell-user-role').textContent = user.role.replace('-', ' ');
       document.getElementById('shell-user-avatar').textContent = user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
       
-
+      // Render layout sidebar nav links
       this.renderSidebarNav(user.role);
       
-  
+      // Initial notification counter check
       this.updateNotificationBadge();
       
-
+      // Force routing
       if (!window.location.hash || window.location.hash === '#') {
         window.location.hash = '#dashboard';
       } else {
         this.handleRouting();
       }
     } else {
-
+      // Logged out
       appShell.classList.add('hidden');
       authContainer.classList.remove('hidden');
       
-
+      // Clear switcher selection
       switcher.value = '';
       
-
+      // Reset signup name visibility
       document.getElementById('signup-name-group').classList.add('hidden');
       document.getElementById('auth-title').textContent = 'Log In to Your Account';
       document.getElementById('auth-submit-btn').textContent = 'Log In';
@@ -229,40 +241,41 @@ class AppRouter {
 
   handleRouting() {
     const user = auth.getCurrentUser();
-    if (!user) return; 
+    if (!user) return; // refreshShellState handles auth check
 
     let hash = window.location.hash.substring(1);
     if (!hash) hash = 'dashboard';
     
-
+    // Strip query params if any
     const hashBase = hash.split('?')[0];
 
     const config = this.routes[hashBase];
     if (!config || !config.roles.includes(user.role)) {
-     
+      // Unallowed role page, fallback to dashboard
       window.location.hash = '#dashboard';
       return;
     }
 
     this.currentHash = hash;
     
-
+    // Highlight sidebar link
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     const activeLink = document.getElementById(`nav-${hashBase}`);
     if (activeLink) activeLink.classList.add('active');
 
-
+    // Update screen title
     const navTextEl = activeLink ? activeLink.querySelector('span') : null;
     document.getElementById('screen-title').textContent = navTextEl ? navTextEl.textContent : 'AssetFlow';
 
-
+    // Render screen
     const container = document.getElementById('content-pane');
-    container.innerHTML = ''; 
+    container.innerHTML = ''; // reset view container
     
-
+    // Fire render logic
     config.render(container, user);
   }
 
+  // Background notifications alert logic
   backgroundScan() {
     const user = auth.getCurrentUser();
     if (!user) return;
@@ -273,12 +286,12 @@ class AppRouter {
     const now = new Date();
     let hasAlerted = false;
 
-
+    // Check allocations overdue expectedReturnDate
     allocations.forEach(alloc => {
       if (alloc.status === 'active' && alloc.expectedReturnDate) {
         const expected = new Date(alloc.expectedReturnDate);
         if (expected < now) {
-       
+          // Check if notification already raised
           const asset = assets.find(a => a.id === alloc.assetId);
           const notifs = dbData.notifications;
           const notificationExists = notifs.some(n => 
@@ -304,7 +317,7 @@ class AppRouter {
     }
   }
 
-
+  // Update navbar badge count
   updateNotificationBadge() {
     const user = auth.getCurrentUser();
     if (!user) return;
@@ -337,7 +350,7 @@ class AppRouter {
       const div = document.createElement('div');
       div.className = `notif-item ${n.read ? '' : 'unread'}`;
       
-
+      // Calculate human time difference
       const timeDiff = new Date() - new Date(n.date);
       const mins = Math.floor(timeDiff / 60000);
       let timeText = 'Just now';
@@ -379,10 +392,10 @@ class AppRouter {
   }
 }
 
-
+// Global router instantiation
 export const router = new AppRouter();
 
-
+// Initialize app when DOM loaded
 document.addEventListener('DOMContentLoaded', () => {
   router.init();
 });

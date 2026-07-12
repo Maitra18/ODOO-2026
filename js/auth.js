@@ -7,7 +7,7 @@ class AuthManager {
     const session = localStorage.getItem(SESSION_KEY);
     if (!session) return null;
     
-   
+    // Get fresh data from database in case roles/details were updated
     const user = db.getById('employees', session);
     if (!user || user.status !== 'active') {
       this.logout();
@@ -52,17 +52,18 @@ class AuthManager {
       name,
       email,
       password,
-      departmentId: '', 
-      role: 'employee', 
+      departmentId: '', // initially empty, assigned by admin
+      role: 'employee', // Always default to employee to prevent self-privilege escalation
       status: 'active'
     };
 
     db.save('employees', newEmployee, newEmployee.id);
     db.logAction(newEmployee.id, `Created new employee account`);
 
+    // Notify administrators of new signup
     db.notifyRole('admin', 'New Employee Signup', `${name} (${email}) has registered and requires department assignment.`);
 
-
+    // Auto-login after signup
     localStorage.setItem(SESSION_KEY, newEmployee.id);
     return newEmployee;
   }
@@ -75,7 +76,7 @@ class AuthManager {
     localStorage.removeItem(SESSION_KEY);
   }
 
-  
+  // Role Checker
   hasRole(allowedRoles) {
     const user = this.getCurrentUser();
     if (!user) return false;

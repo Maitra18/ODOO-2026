@@ -1,8 +1,8 @@
-
+// AssetFlow Mock Database Module using localStorage
 
 const DB_KEY = 'assetflow_db_v1';
 
-
+// Seed Data
 const DEFAULT_DEPARTMENTS = [
   { id: 'dept-it', name: 'Information Technology', headId: 'emp-head', parentId: null, status: 'active' },
   { id: 'dept-hr', name: 'Human Resources', headId: null, parentId: null, status: 'active' },
@@ -25,7 +25,7 @@ const DEFAULT_EMPLOYEES = [
   { id: 'emp-raj', name: 'Raj Kumar', email: 'raj@assetflow.com', password: 'employee123', departmentId: 'dept-dev', role: 'employee', status: 'active' }
 ];
 
-
+// Pre-seeded assets
 const DEFAULT_ASSETS = [
   {
     id: 'asset-0001',
@@ -152,7 +152,7 @@ const DEFAULT_MAINTENANCE = [
 const DEFAULT_BOOKINGS = [
   {
     id: 'book-0001',
-    assetId: 'asset-0004',
+    assetId: 'asset-0004', // Conference Room Alpha
     employeeId: 'emp-head',
     startDate: '2026-07-12T09:00',
     endDate: '2026-07-12T10:00',
@@ -217,7 +217,7 @@ class AssetFlowDB {
     }
   }
 
-
+  // Raw Database Getter/Setter
   getDB() {
     return JSON.parse(localStorage.getItem(DB_KEY));
   }
@@ -226,7 +226,7 @@ class AssetFlowDB {
     localStorage.setItem(DB_KEY, JSON.stringify(db));
   }
 
-  
+  // Generic Operations
   getAll(entity) {
     return this.getDB()[entity] || [];
   }
@@ -242,7 +242,7 @@ class AssetFlowDB {
     const user = db.employees.find(e => e.id === userId) || { name: 'System' };
 
     if (data.id) {
-   
+      // Edit
       const idx = db[entity].findIndex(item => item.id === data.id);
       if (idx !== -1) {
         db[entity][idx] = { ...db[entity][idx], ...data };
@@ -252,7 +252,7 @@ class AssetFlowDB {
         this.addLog(db, userId, user.name, `Created ${entity} item: ${data.name || data.id}`);
       }
     } else {
-
+      // Create
       let prefix = entity.slice(0, 3).toUpperCase();
       data.id = `${entity.slice(0, 3)}-${Date.now()}`;
       db[entity].push(data);
@@ -286,6 +286,7 @@ class AssetFlowDB {
     db.logs.unshift(log);
   }
 
+  // Custom Log Appender (public usage)
   logAction(userId, action) {
     const db = this.getDB();
     const user = db.employees.find(e => e.id === userId) || { name: 'System' };
@@ -293,7 +294,7 @@ class AssetFlowDB {
     this.saveDB(db);
   }
 
-
+  // Notification helper
   notify(userId, title, message) {
     const db = this.getDB();
     const notif = {
@@ -308,7 +309,7 @@ class AssetFlowDB {
     this.saveDB(db);
   }
 
-
+  // Multi-target Notification
   notifyRole(role, title, message) {
     const db = this.getDB();
     const targets = db.employees.filter(e => e.role === role);
