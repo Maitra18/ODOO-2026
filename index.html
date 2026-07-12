@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AssetFlow - Enterprise Asset & Resource Management</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/components.css">
+  <!-- Load Chart.js for reports & analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- AUTHENTICATION CONTAINER (Switched dynamically) -->
+  <div id="auth-container" class="auth-wrapper hidden">
+    <div class="glass-card auth-card fade-in">
+      <div class="auth-logo">
+        <div class="logo-icon"><img src="logo1.png" alt="AssetFlow Logo" style="width:40px; height:40px; object-fit:contain;"></div>
+        <span class="logo-text">AssetFlow</span>
+      </div>
+      <h2 id="auth-title" class="auth-title">Log In to Your Account</h2>
+      <p id="auth-subtitle" class="auth-subtitle">Enterprise Asset & Resource Management</p>
+      
+      <form id="auth-form">
+        <!-- Fields will be dynamically cleared/shown based on mode -->
+        <div class="form-group" id="signup-name-group">
+          <label class="form-label" for="auth-name">Full Name</label>
+          <input type="text" id="auth-name" class="form-control" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="auth-email">Email Address</label>
+          <input type="email" id="auth-email" class="form-control" placeholder="name@company.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="auth-password">Password</label>
+          <input type="password" id="auth-password" class="form-control" placeholder="••••••••" required>
+        </div>
+        <button type="submit" id="auth-submit-btn" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Log In</button>
+      </form>
+      
+      <a id="auth-switch-link" class="auth-switch-link">Don't have an account? Sign up</a>
+    </div>
+  </div>
+
+  <!-- APPLICATION SHELL (Switched dynamically) -->
+  <div id="app-shell" class="hidden">
+    
+    <!-- Collapsible/Responsive Sidebar -->
+    <aside id="sidebar">
+      <div class="logo-container">
+        <div class="logo-icon"><img src="logo.png" alt="AssetFlow Logo" style="width:40px; height:40px; object-fit:contain;"></div>
+        <span class="logo-text">AssetFlow</span>
+      </div>
+      
+      <nav class="sidebar-nav" id="sidebar-nav">
+        <!-- Nav items dynamically rendered based on permissions -->
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-avatar" id="shell-user-avatar">?</div>
+        <div class="user-info">
+          <span class="user-name" id="shell-user-name">Loading...</span>
+          <span class="user-role-badge" id="shell-user-role">Role</span>
+        </div>
+        <button id="shell-logout-btn" class="btn-sm btn-secondary" style="margin-left: auto; padding: 0.35rem;" title="Log Out">
+          <!-- Sign out SVG icon -->
+          <svg style="width:16px; height:16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+          </svg>
+        </button>
+      </div>
+    </aside>
+    
+    <!-- Main Content Container -->
+    <main id="main-content">
+      
+      <!-- Top header bar -->
+      <header id="header">
+        <div class="header-left">
+          <h1 id="screen-title">Dashboard</h1>
+        </div>
+        
+        <div class="header-right">
+          <!-- Demo Role Quick-Switcher widget -->
+          <div class="role-switcher-container">
+            <span class="role-switcher-label">Demo Role:</span>
+            <select id="role-quick-switcher" class="role-switcher-select">
+              <option value="">-- Choose User --</option>
+              <option value="emp-admin">Alice Admin (Admin)</option>
+              <option value="emp-manager">Bob Manager (Asset Manager)</option>
+              <option value="emp-head">Charlie Head (Dept Head)</option>
+              <option value="emp-emp">Priya Patel (Employee)</option>
+              <option value="emp-raj">Raj Kumar (Employee)</option>
+            </select>
+          </div>
+          
+          <!-- Notifications Bell dropdown trigger -->
+          <button id="notif-bell" class="notif-bell-btn" title="Notifications">
+            <svg style="width:22px; height:22px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+            </svg>
+            <span id="notif-count-badge" class="notif-badge hidden"></span>
+          </button>
+          
+          <!-- Notification Dropdown Menu Drawer -->
+          <div id="notif-dropdown" class="notif-dropdown hidden fade-in">
+            <div class="notif-dropdown-header">
+              <h3>Notifications</h3>
+              <button id="notif-clear-all" class="notif-mark-read">Mark all as read</button>
+            </div>
+            <div id="notif-list" class="notif-list-container">
+              <!-- Dynamically populated notification events -->
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Screen Viewer -->
+      <div id="content-pane" class="content-pane fade-in">
+        <!-- Dynamically injected screen HTML content -->
+      </div>
+      
+    </main>
+  </div>
+
+  <!-- GLOBAL REUSABLE MODAL DIALOG CONTAINER -->
+  <div id="global-modal" class="modal-overlay">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h2 id="modal-title">Modal Title</h2>
+        <button id="modal-close" class="modal-close-btn">
+          <svg style="width:20px; height:20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamically injected form fields or descriptions -->
+      </div>
+      <div class="modal-footer" id="modal-footer">
+        <!-- Dynamically injected button configurations -->
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
