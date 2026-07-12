@@ -1,0 +1,158 @@
+/* AssetFlow Global Design System Stylesheet */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Color Palette - Light Corporate Theme */
+  --bg-primary: #dce4f3;
+  --bg-secondary: #edf2fa;
+  --bg-tertiary: #f8fafc;
+  --bg-card: #f8fafc;
+  
+  --border-color: rgba(27, 37, 59, 0.1);
+  --border-focus: #1b253b;
+  
+  --text-main: #1b253b;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+  
+  /* Primary Accent Details */
+  --accent-color: #1b253b;
+  --accent-glow: rgba(27, 37, 59, 0.1);
+  --accent-hover: #111827;
+  
+  /* Lifecycle & State Colors */
+  --color-available: #10b981;
+  --color-allocated: #1b253b;
+  --color-reserved: #64748b;
+  --color-maintenance: #f97316;
+  --color-lost: #b91c1c;
+  --color-retired: #94a3b8;
+  --color-disposed: #cbd5e1;
+  
+  --color-priority-high: #b91c1c;
+  --color-priority-medium: #f97316;
+  --color-priority-low: #10b981;
+  
+  /* Fonts */
+  --font-main: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Dimensions & Spacing */
+  --sidebar-width: 250px;
+  --header-height: 70px;
+  --transition-speed: 0.2s;
+  --border-radius-sm: 6px;
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
+  
+  /* Shadows and drop effects */
+  --glass-backdrop: none;
+  --glass-shadow: 0 4px 20px 0 rgba(27, 37, 59, 0.05), 0 1px 3px 0 rgba(27, 37, 59, 0.03);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(at 10% 10%, rgba(27, 37, 59, 0.04) 0px, transparent 50%),
+    radial-gradient(at 90% 90%, rgba(249, 115, 22, 0.04) 0px, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(27, 37, 59, 0.02);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(27, 37, 59, 0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(27, 37, 59, 0.25);
+}
+
+/* Core Layout Grids */
+#app-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
+#sidebar {
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  z-index: 10;
+}
+
+#main-content {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+#header {
+  height: var(--header-height);
+  border-bottom: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  z-index: 9;
+}
+
+.content-pane {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Hidden Utilities */
+.hidden {
+  display: none !important;
+}
+
+/* Text formatting utilities */
+.text-muted { color: var(--text-muted); }
+.text-success { color: var(--color-available); }
+.text-warning { color: var(--color-maintenance); }
+.text-danger { color: var(--color-lost); }
+.text-primary { color: var(--color-allocated); }
+
+/* Custom CSS Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn var(--transition-speed) ease forwards;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(27, 37, 59, 0.05); }
+  50% { box-shadow: 0 0 15px rgba(27, 37, 59, 0.15); }
+}
