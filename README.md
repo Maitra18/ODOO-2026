@@ -1,111 +1,135 @@
-#AssetFlow – Enterprise Asset & Resource Management
+# 🚀 AssetFlow
+### Enterprise Asset & Resource Management System
 
-#Overview
+AssetFlow is a web-based enterprise asset and resource management system developed for the **Odoo X 2026 Hackathon**. It helps organizations efficiently manage assets, bookings, maintenance, allocations, audits, and reports through a modern dashboard interface.
 
-AssetFlow is a modern web-based Enterprise Asset & Resource Management System designed to help organizations efficiently manage assets, resource allocation, maintenance, bookings, audits, and reports through a clean and responsive interface.
+---
 
-Features
+## 📌 Features
 
+- 🔐 User Authentication (Login & Signup)
 - 📊 Interactive Dashboard
-- 🏢 Organization Setup
 - 📦 Asset Management
 - 👥 Asset Allocation
-- 📅 Resource Booking
-- 🔧 Maintenance Tracking
-- ✅ Asset Audit
-- 📈 Reports & Analytics (Chart.js)
-- 📝 Activity Logs
-- 🔐 Authentication & Role-Based Access
-- 📱 Responsive User Interface
+- 📅 Asset Booking
+- 🛠️ Maintenance Tracking
+- 📋 Audit Logs
+- 📈 Reports & Analytics
+- 🏢 Organization Setup
+- 🔔 Notification System
+- 👤 Role-Based Access Control
 
-Technology Stack
+---
 
+## 🛠️ Tech Stack
+
+### Frontend
 - HTML5
 - CSS3
 - JavaScript (ES6 Modules)
+
+### Libraries
 - Chart.js
-- Local Browser Storage / JavaScript Database
 
-Project Structure
+---
 
-assetflow/
+## 📂 Project Structure
+
+```
+AssetFlow/
 │
-├── index.html
 ├── css/
 │   ├── styles.css
 │   └── components.css
 │
-└── js/
-    ├── app.js
-    ├── auth.js
-    ├── db.js
-    └── screens/
-        ├── dashboard.js
-        ├── orgSetup.js
-        ├── assets.js
-        ├── allocation.js
-        ├── booking.js
-        ├── maintenance.js
-        ├── audit.js
-        ├── reports.js
-        └── logs.js
+├── js/
+│   ├── app.js
+│   ├── auth.js
+│   ├── db.js
+│   └── screens/
+│       ├── dashboard.js
+│       ├── assets.js
+│       ├── allocation.js
+│       ├── booking.js
+│       ├── maintenance.js
+│       ├── audit.js
+│       ├── reports.js
+│       ├── logs.js
+│       └── orgSetup.js
+│
+├── logo.png
+├── logo1.png
+└── index.html
+```
 
-Modules
+---
 
-Dashboard
+## 🚀 Getting Started
 
-Displays key business metrics, asset statistics, and system overview.
+### Clone the Repository
 
-Organization Setup
+```bash
+git clone https://github.com/Maitra18/ODOO-2026.git
+```
 
-Manage departments, users, and organizational configuration.
+### Navigate to Project
 
-Asset Management
+```bash
+cd ODOO-2026
+```
 
-Create, update, search, and manage enterprise assets.
+### Run the Project
 
-Asset Allocation
+Open **index.html** in your browser.
 
-Assign and track assets allocated to employees or departments.
+OR
 
-Resource Booking
+Use VS Code Live Server.
 
-Book shared assets and manage scheduling.
+---
 
-Maintenance
+## 👥 Team Members
 
-Track maintenance requests, service history, and asset condition.
+| Member | Responsibility |
+|---------|---------------|
+| Member 1 | HTML Structure & Assets |
+| Member 2 | CSS Styling & Components |
+| Member 3 | Core JavaScript (app.js, auth.js, db.js) |
+| Member 4 | Screen Modules (Dashboard, Assets, Reports, etc.) |
 
-Audit
+---
 
-Perform asset verification and maintain audit records.
+## 📋 Modules
 
-Reports
+- Dashboard
+- Asset Management
+- Asset Allocation
+- Booking
+- Maintenance
+- Audit
+- Reports
+- Logs
+- Organization Setup
 
-Generate visual reports and analytics using Chart.js.
+---
 
-Activity Logs
+## 🎯 Future Enhancements
 
-Monitor important system events and user activities.
+- Backend Integration
+- Database Connectivity
+- Email Notifications
+- QR Code Asset Tracking
+- Mobile Responsive Improvements
+- Export Reports (PDF/Excel)
 
-Installation
+---
 
-1. Download or clone the project.
-2. Open the project folder.
-3. Run a local web server (recommended).
-4. Open "index.html" in your browser.
+## 📄 License
 
-Future Enhancements
+This project is developed for educational and hackathon purposes.
 
-- Backend API integration
-- Cloud database support
-- QR/Barcode asset tracking
-- Email notifications
-- File attachments
-- Export reports to PDF and Excel
-- Multi-organization support
-- Dark mode
+---
 
-License
+## ❤️ Developed For
 
-This project is intended for educational and demonstration purposes. Modify and extend it according to your organization's requirements.
+**Odoo X 2026 Hackathon**
