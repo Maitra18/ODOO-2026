@@ -2,15 +2,15 @@ import { db } from './db.js';
 import { auth } from './auth.js';
 
 // Screens - Static Imports
-import { renderDashboard } from './screens/dashboard.js';
-import { renderOrgSetup } from './screens/orgSetup.js';
-import { renderAssets } from './screens/assets.js';
-import { renderAllocation } from './screens/allocation.js';
-import { renderBooking } from './screens/booking.js';
-import { renderMaintenance } from './screens/maintenance.js';
-import { renderAudit } from './screens/audit.js';
-import { renderReports } from './screens/reports.js';
-import { renderLogs } from './screens/logs.js';
+import { renderDashboard } from './Screens/dashboard.js';
+import { renderOrgSetup } from './Screens/orgsetup.js';
+import { renderAssets } from './Screens/assets.js';
+import { renderAllocation } from './Screens/allocation.js';
+import { renderBooking } from './Screens/book.js';
+import { renderMaintenance } from './Screens/maintanance.js';
+import { renderAudit } from './Screens/audit.js';
+import { renderReports } from './Screens/report.js';
+import { renderLogs } from './Screens/logs.js';
 
 // Global Modal Helpers
 export function openModal(title, bodyHTML, footerButtons = []) {
